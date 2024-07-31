@@ -20,21 +20,21 @@ if ENV["DRIVER"] == "hiredis"
   require "hiredis-client"
 end
 
-PORT        = 6381
-DB          = 15
+PORT        = 6379
+DB          = 0
 TIMEOUT     = Float(ENV['TIMEOUT'] || 1.0)
 LOW_TIMEOUT = Float(ENV['LOW_TIMEOUT'] || 0.01) # for blocking-command tests
 OPTIONS     = { port: PORT, db: DB, timeout: TIMEOUT }.freeze
 
-if ENV['REDIS_SOCKET_PATH'].nil?
-  sock_file = File.expand_path('../tmp/redis.sock', __dir__)
+# if ENV['REDIS_SOCKET_PATH'].nil?
+#   sock_file = File.expand_path('../tmp/redis.sock', __dir__)
 
-  unless File.exist?(sock_file)
-    abort "Couldn't locate the redis unix socket, did you run `make start`?"
-  end
+#   unless File.exist?(sock_file)
+#     abort "Couldn't locate the redis unix socket, did you run `make start`?"
+#   end
 
-  ENV['REDIS_SOCKET_PATH'] = sock_file
-end
+#   ENV['REDIS_SOCKET_PATH'] = sock_file
+# end
 
 Dir[File.expand_path('lint/**/*.rb', __dir__)].sort.each do |f|
   require f
